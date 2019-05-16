@@ -27,7 +27,7 @@ class TouTiao:
             traceback.print_exc()
             print("插入失败")
 
-    def start(self,starttime='2019-05-12',endtime='2019-05-12',ticks=None):
+    def start(self,starttime='2019-05-15',endtime='2019-05-15',ticks=None):
         main_contents=self.driver.page_source;
         psize=int(pq(main_contents)('.byte-pagination-total-records').text().replace('条记录','').replace('共','').strip())%20
         if psize>0:
@@ -155,12 +155,14 @@ if __name__=='__main__':
     db = 'kol_spider'
     sqlurl = 'mysql+pymysql://{user}:{pwd}@{host}:{port}/{db}?charset=utf8'.format(user=user, host=host, pwd=pwd,port=port, db=db);
     engine = create_engine(sqlurl)
-    tick=1
+    tick=5
 st=TouTiao()
 while True:
-    st.start(ticks=tick)
+    st.start(starttime=str(getYesterday()),endtime=str(getYesterday()),ticks=tick)
+    print("采集完成")
     tick=tick+1;
     time.sleep(86400)
+
 
 
 
